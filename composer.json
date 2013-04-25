@@ -1,0 +1,23 @@
+{
+    "name": "kh411d/laravel-odm-auth",
+    "type": "library",
+    "description": "Laravel 4 doctrine odm mongodb Auth",
+    "keywords": ["mongodb", "odm","laravel"],
+    "homepage": "https://github.com/kh411d/laravel-odm-auth.git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Khalid Adisendjaja",
+            "email": "contact@khal.web.id"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/auth": "4.0.*",
+        "doctrine/mongodb-odm": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {"OdmAuth": "src/"}
+    },
+    "minimum-stability": "dev"
+}
