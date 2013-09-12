@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Reminders\PasswordBroker;
 use OdmAuth\Reminders\OdmReminderRepository;
 
+
 class ReminderServiceProvider extends ServiceProvider {
 
 	/**
@@ -75,6 +76,7 @@ class ReminderServiceProvider extends ServiceProvider {
 			$key = $app['config']['app.key'];
 
 			return new OdmReminderRepository($dm, $document, $key);
+
 		});
 	}
 
