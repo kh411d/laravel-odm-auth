@@ -71,6 +71,7 @@ class ReminderServiceProvider extends ServiceProvider {
 		$app['auth.reminder.repository'] = $app->share(function($app)
 		{
 			$dm = $app['doctrine.mongodb'];
+
 			$config = $app['config']->get('laravel-odm-auth::reminder');
 
 			// The database reminder repository is an implementation of the reminder repo
