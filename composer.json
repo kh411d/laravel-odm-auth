@@ -1,7 +1,7 @@
 {
     "name": "kh411d/laravel-odm-auth",
     "type": "library",
-    "description": "Laravel 4 doctrine odm mongodb Auth",
+    "description": "Laravel 4 doctrine ODM MongoDB Authentication & ACL ",
     "keywords": ["mongodb","doctrine", "odm","acl","auth","laravel","zendframework"],
     "homepage": "https://github.com/kh411d/laravel-odm-auth.git",
     "license": "MIT",
