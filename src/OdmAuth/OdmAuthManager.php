@@ -14,7 +14,7 @@ class OdmAuthManager extends Auth\AuthManager {
     {
         $provider = $this->createOdmProvider();
         $acl = $this->app['config']->get('laravel-odm-auth::acl');
-        return new OdmGuardCustom($provider, $this->app['session'],$acl());
+        return new OdmGuardCustom($provider, $this->app['session.store'],$acl());
     }
 
     /**
