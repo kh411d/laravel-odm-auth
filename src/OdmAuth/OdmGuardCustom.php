@@ -15,6 +15,11 @@ Class OdmGuardCustom extends Guard {
 		$this->acl = $acl;
 	}
 
+	public function Acl()
+	{
+		return $this->acl;
+	}
+
 	public function isAllowed($resource = null,$action = null)
 	{
 		if(is_null($this->user())) return FALSE;
