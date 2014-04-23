@@ -20,6 +20,15 @@ Class OdmGuardCustom extends Guard {
 		return $this->acl;
 	}
 
+	//
+	//Overwrite acl object with new one from other source such cache
+	//
+	public function setAcl(\Zend\Permissions\Acl\Acl $acl)
+	{
+		$this->acl = $acl;
+		return true;
+	}
+
 	public function isAllowed($resource = null,$action = null,$byUser = false)
 	{
 		if(is_null($this->user())) return FALSE;
