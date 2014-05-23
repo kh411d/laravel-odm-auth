@@ -24,10 +24,9 @@ class OdmAuthManager extends Auth\AuthManager {
      */
     protected function createOdmProvider()
     {
-        $DocumentManager = $this->app['odm.documentmanager'];
+        $dm = $this->app['odm.documentmanager'];
         $document = $this->app['config']->get('laravel-odm-auth::document');
-        $model = $DocumentManager->getRepository($document);
-
-        return new OdmUserProvider($this->app['hash'], $model);
+       
+        return new OdmUserProvider($dm,$this->app['hash'], $document);
     }
 }

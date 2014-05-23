@@ -27,6 +27,8 @@ class OdmUserProvider implements UserProviderInterface {
      */
     protected $dm;
 
+    protected $docname;
+
     /**
      * Create a new database user provider.
      *
@@ -34,10 +36,13 @@ class OdmUserProvider implements UserProviderInterface {
      * @param  string  $model
      * @return void
      */
-    public function __construct(HasherInterface $hasher, $model)
+    public function __construct($dm, HasherInterface $hasher, $model)
     {
-        $this->model = $model;
+        $this->dm = $dm;
+        $this->model = $dm->getRepository($model);
         $this->hasher = $hasher;
+        $this->docname = $model;
+
     }
 
     /**
@@ -98,6 +103,40 @@ class OdmUserProvider implements UserProviderInterface {
         $plain = $credentials['password'];
 
         return $this->hasher->check($plain, $user->getAuthPassword());
+    }
+
+ /**
+     * Retrieve a user by by their unique identifier and "remember me" token.
+     *
+     * @param  mixed  $identifier
+     * @param  string  $token
+     * @return \Illuminate\Auth\UserInterface|null
+     */
+    public function retrieveByToken($identifier, $token)
+    {
+        $userDocument = $this->model->findOneBy(array('id'=>$identifier,'remember_token' =>$token));
+
+
+        if ( ! is_null($userDocument))
+        {
+            $user = $userDocument->getData();
+            return new OdmGenericUser((array) $user);
+        }
+    }
+
+    /**
+     * Update the "remember me" token for the given user in storage.
+     *
+     * @param  \Illuminate\Auth\UserInterface  $user
+     * @param  string  $token
+     * @return void
+     */
+    public function updateRememberToken(UserInterface $user, $token)
+    {
+         $this->dm->createQueryBuilder($this->docname)
+                   ->update()
+                   ->field('remember_token')->set($token)
+                   ->field("id")->equals($user->getAuthIdentifier());
     }
 
 

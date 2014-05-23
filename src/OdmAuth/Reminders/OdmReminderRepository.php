@@ -27,13 +27,15 @@ class OdmReminderRepository implements ReminderRepositoryInterface {
 	 */
 	protected $hashKey;
 
+	protected $expires;
+
 	/**
 	 * Create a new reminder repository instance.
 	 *
 	 * @var Doctrine.MongoDB\Connection  $dm
 	 * @return void
 	 */
-	public function __construct(\Doctrine\ODM\MongoDB\DocumentManager  $dm, $collection, $hashKey)
+	public function __construct(\Doctrine\ODM\MongoDB\DocumentManager  $dm, $collection, $hashKey,$expires = 60)
 	{
 		$this->collection = $collection;
 		$this->hashKey = $hashKey;
@@ -130,6 +132,15 @@ class OdmReminderRepository implements ReminderRepositoryInterface {
 		$this->dm->createQueryBuilder($this->collection)
 		    ->remove()
 		    ->field('token')->equals($token)
+		    ->getQuery()
+		    ->execute();
+	}
+
+	public function deleteExpired(){
+		$expired = Carbon::now()->subSeconds($this->expires);
+		$this->dm->createQueryBuilder($this->collection)
+		    ->remove()
+		    ->field('created_at')->lt($expired)
 		    ->getQuery()
 		    ->execute();
 	}
