@@ -45,6 +45,19 @@ class OdmUserProvider implements UserProviderInterface {
 
     }
 
+    public function collectUserData($userDocument)
+    {
+        $data['id'] = $userDocument->getAuthIdentifier();
+         if($fieldnames = $this->dm->getClassMetadata($this->docname)->getFieldNames()){
+            foreach ($fieldnames as $var) {
+               if(method_exists($userDocument, "get".$var)){
+                    $data[$var] = $userDocument->{"get".$var}();
+               }
+            }
+         }
+         return $data;
+    }
+
     /**
      * Retrieve a user by their unique identifier.
      *
@@ -55,10 +68,8 @@ class OdmUserProvider implements UserProviderInterface {
     {
         $userDocument = $this->model->findOneBy(array('id'=>$identifier));
         if ( ! is_null($userDocument))
-        {
-
-            
-            $user = $userDocument->getData();
+        {  
+            $user = $this->collectUserData($userDocument);
             return new OdmGenericUser((array) $user);
         }
     }
@@ -86,7 +97,7 @@ class OdmUserProvider implements UserProviderInterface {
         
         if ( ! is_null($userDocument))
         {
-            $user = $userDocument->getData();
+            $user = $this->collectUserData($userDocument);
             return new OdmGenericUser((array) $user);
         }
     }
@@ -119,7 +130,7 @@ class OdmUserProvider implements UserProviderInterface {
 
         if ( ! is_null($userDocument))
         {
-            $user = $userDocument->getData();
+            $user = $this->collectUserData($userDocument);
             return new OdmGenericUser((array) $user);
         }
     }
