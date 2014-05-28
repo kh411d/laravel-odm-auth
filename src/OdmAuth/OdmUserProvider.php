@@ -48,6 +48,9 @@ class OdmUserProvider implements UserProviderInterface {
     public function collectUserData($userDocument)
     {
         $data['id'] = $userDocument->getAuthIdentifier();
+        $data['password'] = $userDocument->getAuthPassword();
+        $data['remember_token'] = $userDocument->getRememberToken();
+        
          if($fieldnames = $this->dm->getClassMetadata($this->docname)->getFieldNames()){
             foreach ($fieldnames as $var) {
                if(method_exists($userDocument, "get".$var)){
